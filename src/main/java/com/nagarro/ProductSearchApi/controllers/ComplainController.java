@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nagarro.ProductSearchApi.dto.ComplainDTO;
 import com.nagarro.ProductSearchApi.dto.ComplainResponseDto;
-import com.nagarro.ProductSearchApi.dto.FeedBackResponseDto;
 import com.nagarro.ProductSearchApi.dto.UserWithComplainDTO;
 import com.nagarro.ProductSearchApi.model.Complain;
 import com.nagarro.ProductSearchApi.model.ComplainStatus;

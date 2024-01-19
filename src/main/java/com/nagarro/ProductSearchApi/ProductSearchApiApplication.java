@@ -13,6 +13,4 @@ public class ProductSearchApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProductSearchApiApplication.class, args);
 	}
-
-
 }

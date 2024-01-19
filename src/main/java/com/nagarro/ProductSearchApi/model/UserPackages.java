@@ -10,8 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class UserPackages {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -20,12 +23,15 @@ public class UserPackages {
 	@Column(name="packageLimit")
 	private int limit;
 	private int capacity;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at", nullable = false, updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date createdAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "modified_at")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date modifiedAt;
 	
 	@Column(name = "is_active", nullable = true, columnDefinition = "tinyint(1)")
@@ -34,10 +40,22 @@ public class UserPackages {
 	@Column(name = "is_deleted", nullable = true, columnDefinition = "tinyint(1)")
 	private boolean is_deleted;
 
-	
-	public long getPackageId() {
+	public long getId() {
 		return id;
 	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
 	public String getPackageDes() {
 		return packageDes;
 	}
@@ -46,64 +64,53 @@ public class UserPackages {
 		this.packageDes = packageDes;
 	}
 
-	public void setPackageId(long id) {
-		this.id = id;
-	}
-	public String getPackageName() {
-		return packageName;
-	}
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	public Date getModifiedAt() {
-		return modifiedAt;
-	}
-	public void setModifiedAt(Date modifiedAt) {
-		this.modifiedAt = modifiedAt;
-	}
-	public boolean isIs_active() {
-		return isActive;
-	}
-	public void setIs_active(boolean isActive) {
-		this.isActive = isActive;
-	}
-	public boolean isIs_deleted() {
-		return is_deleted;
-	}
-	public void setIs_deleted(boolean is_deleted) {
-		this.is_deleted = is_deleted;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
 	public int getLimit() {
 		return limit;
 	}
+
 	public void setLimit(int limit) {
 		this.limit = limit;
 	}
+
 	public int getCapacity() {
 		return capacity;
 	}
+
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(Date modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}
+
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-	
-	
 
+	public boolean isIs_deleted() {
+		return is_deleted;
+	}
+
+	public void setIs_deleted(boolean is_deleted) {
+		this.is_deleted = is_deleted;
+	}
+
+	
 }

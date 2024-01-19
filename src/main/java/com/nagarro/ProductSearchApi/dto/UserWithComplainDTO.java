@@ -2,8 +2,6 @@ package com.nagarro.ProductSearchApi.dto;
 
 import java.util.List;
 
-import com.nagarro.ProductSearchApi.model.Complain;
-
 public class UserWithComplainDTO {
 
 	  private Long id;
