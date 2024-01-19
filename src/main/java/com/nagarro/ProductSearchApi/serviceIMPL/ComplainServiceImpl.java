@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nagarro.ProductSearchApi.dto.ComplainResponseDto;
-import com.nagarro.ProductSearchApi.dto.FeedBackResponseDto;
 import com.nagarro.ProductSearchApi.exception.ResourceNotFoundException;
 import com.nagarro.ProductSearchApi.model.Complain;
 import com.nagarro.ProductSearchApi.model.ComplainStatus;
