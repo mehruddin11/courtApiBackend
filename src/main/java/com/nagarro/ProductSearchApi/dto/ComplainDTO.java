@@ -4,7 +4,6 @@ import java.util.Date;
 
 import com.nagarro.ProductSearchApi.model.ComplainStatus;
 
-// test
 public class ComplainDTO {
     private Long id;
     private String message;

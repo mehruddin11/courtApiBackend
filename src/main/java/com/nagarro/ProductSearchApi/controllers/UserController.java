@@ -10,16 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nagarro.ProductSearchApi.dto.AuthResponse;
 import com.nagarro.ProductSearchApi.dto.ForgotPassword;
 import com.nagarro.ProductSearchApi.dto.loginRequest;
 import com.nagarro.ProductSearchApi.exception.DuplicateEmailException;
 import com.nagarro.ProductSearchApi.exception.DuplicatePhoneNumberException;
 import com.nagarro.ProductSearchApi.exception.InvalidCredentialsException;
+import com.nagarro.ProductSearchApi.exception.UserNotFoundException;
 import com.nagarro.ProductSearchApi.model.OtpModel;
 import com.nagarro.ProductSearchApi.model.User;
 import com.nagarro.ProductSearchApi.repository.UserRepository;
@@ -44,19 +48,39 @@ public class UserController {
     /*
     POST: Authenticate user
     */
-    @PostMapping("/authenticate")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody loginRequest loginRequest) {
-        try {
-            String token = userService.loginUser(loginRequest.getUsername(),loginRequest.getPassword());
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            return ResponseEntity.ok(response);
-        } catch (InvalidCredentialsException e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-        }
-    }
+//    @PostMapping("/authenticate")
+//    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody loginRequest loginRequest) {
+//        try {
+//            String token = userService.loginUser(loginRequest.getUsername(),loginRequest.getPassword());
+//            Map<String, Object> response = new HashMap<>();
+//            response.put("token", token);
+//            
+//            return ResponseEntity.ok(response);
+//        } catch (InvalidCredentialsException e) {
+//            Map<String, Object> errorResponse = new HashMap<>();
+//            errorResponse.put("error", e.getMessage());
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+//        }
+//    }
+	@PostMapping("/authenticate")
+	public ResponseEntity<Map<String, Object>> loginUser(@RequestBody loginRequest loginRequest) {
+	    try {
+	        AuthResponse authResponse = userService.loginUser(loginRequest.getUsername(), loginRequest.getPassword());
+	        
+	        Map<String, Object> response = new HashMap<>();
+	        authResponse.getUser().setUsername(null);
+//	        authResponse.getUser().setPassword(null);
+	        response.put("token", authResponse.getToken());
+	        response.put("user", authResponse.getUser());
+	        
+	        return ResponseEntity.ok(response);
+	    } catch (InvalidCredentialsException e) {
+	        Map<String, Object> errorResponse = new HashMap<>();
+	        errorResponse.put("error", e.getMessage());
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+	    }
+	}
+
 
     
     /*
@@ -95,6 +119,42 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         }
     }
+    
+    
+    @PutMapping("/update-profile/{userId}")
+    public ResponseEntity<Map<String, Object>> updateProfile(
+            @PathVariable Long userId,
+            @RequestBody User updatedUserData,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Validation failed");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
+        try {
+            // Assuming userService.updateUserProfile returns the updated user data
+            User updatedUser = userService.updateUserProfile(userId, updatedUserData);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("user", updatedUser);
+            response.put("status", 200);
+            response.put("message", "Profile updated successfully");
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        } catch (UserNotFoundException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+
+        } catch (DuplicatePhoneNumberException | DuplicateEmailException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+        }
+    }
+
 
 
     

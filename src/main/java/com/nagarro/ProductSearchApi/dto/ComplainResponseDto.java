@@ -11,8 +11,6 @@ public class ComplainResponseDto {
     private String lastName;
     private String email;
 
-
-	
     // Fields from FeedBack class
     private List<Complain> complain;
 

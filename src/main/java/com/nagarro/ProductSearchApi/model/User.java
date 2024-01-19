@@ -56,11 +56,12 @@ public class User {
     private boolean isCredentaialCreated;
     
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedBack> feedbackList = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Complain> complainList = new ArrayList<>();
+
     
 	@Nullable
     private String username;

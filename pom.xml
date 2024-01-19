@@ -105,7 +105,7 @@
 
 	</dependencies>
 
-		<build>
+	<build>
 		<finalName>app</finalName>
 		<plugins>
 			<plugin>
@@ -114,6 +114,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -22,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.nagarro.ProductSearchApi.dto.AuthResponse;
 import com.nagarro.ProductSearchApi.exception.DuplicateEmailException;
 import com.nagarro.ProductSearchApi.exception.DuplicatePhoneNumberException;
 import com.nagarro.ProductSearchApi.exception.InvalidCredentialsException;
@@ -49,28 +52,51 @@ public class UserServiceImpl implements UserService {
 	private AuthenticationManager authenticationManager;
 
 	
-	@Override
-	public String loginUser(String username, String password) {
-	    try {
-	        // Authenticate the user
-	        Authentication authentication = authenticationManager
-	                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
-	        SecurityContextHolder.getContext().setAuthentication(authentication);
+//	@Override
+//	public String loginUser(String username, String password) {
+//	    try {
+//	        // Authenticate the user
+//	        Authentication authentication = authenticationManager
+//	                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//	        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//	       
+//	        User user = userRepository.findByUsername(username);
+//	        if (user != null && user.isVerified() && user.isCredentaialCreated()) {
+//	            String token = jwtTokenUtil.generateToken(userDetails);
+//	            return token;
+//	        } else {
+//	            throw new UserNotVerifiedException("");
+//	        }
+//	    } catch (AuthenticationException | UserNotVerifiedException e) {
+//	        throw new InvalidCredentialsException("Invalid email or password or User not verified or credentials not created");
+//	    }
+//	}
+	
+	public AuthResponse loginUser(String username, String password) {
+        try {
+            // Authenticate the user
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-	        // Additional checks before generating token
-	        User user = userRepository.findByUsername(username);
-	        if (user != null && user.isVerified() && user.isCredentaialCreated()) {
-	            String token = jwtTokenUtil.generateToken(userDetails);
-	            return token;
-	        } else {
-	            throw new UserNotVerifiedException("");
-	        }
-	    } catch (AuthenticationException | UserNotVerifiedException e) {
-	        throw new InvalidCredentialsException("Invalid email or password or User not verified or credentials not created");
-	    }
-	}
+            User user = userRepository.findByUsername(username);
+            if (user != null && user.isVerified() && user.isCredentaialCreated()) {
+                String token = jwtTokenUtil.generateToken(userDetails);
+                AuthResponse authResponse = new AuthResponse(token, user);
+                return authResponse;
+            } else {
+                throw new UserNotVerifiedException("");
+            }
+        } catch (AuthenticationException | UserNotVerifiedException e) {
+            throw new InvalidCredentialsException("Invalid email or password or User not verified or credentials not created");
+        }
+    }
+
 
 
 	@Override
@@ -223,6 +249,39 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	 @Override
+	    @Transactional
+	    public User updateUserProfile(long userId, User updatedUserData) {
+	        // Check if the provided email is already associated with another user
+	        String newEmail = updatedUserData.getEmail();
+	        User existingUserWithEmail = userRepository.findByEmail(newEmail);
+
+	        if (existingUserWithEmail != null && !existingUserWithEmail.getId().equals(userId)) {
+	            throw new DuplicateEmailException("Email address is already in use by another user",0, null);
+	        }
+
+	       
+	        User existingUser = userRepository.findById(userId)
+	                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+
+	        // Update user fields
+	     // Update user fields
+	        existingUser.setFirstName(updatedUserData.getFirstName());
+	        existingUser.setLastName(updatedUserData.getLastName());
+	        existingUser.setEmail(newEmail);
+	        existingUser.setState(updatedUserData.getState());
+	        existingUser.setDistrict(updatedUserData.getDistrict());
+	        existingUser.setCity(updatedUserData.getCity());
+	        existingUser.setAddress(updatedUserData.getAddress());
+//	        existingUser.setMobileNumber(updatedUserData.getMobileNumber());
+	        existingUser.setCategory(updatedUserData.getCategory());
+	       existingUser.setProfession(updatedUserData.getProfession());
+	        
+	        // Update other fields as needed
+
+	        // Save the updated user
+	        return userRepository.save(existingUser);
+	    }
 
 
 

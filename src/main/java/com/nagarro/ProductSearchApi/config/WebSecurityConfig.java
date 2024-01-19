@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests(req -> req
                 		.antMatchers("/authenticate", "/register","/generate","/verify",
-                				"/createCredentials","/forgot-password-otp","/verify-otp","/reset-password","/feedbacks").permitAll()
+                				"/createCredentials","/forgot-password-otp","/verify-otp","/reset-password","/feedbacks", "/update-profile/**").permitAll()
                 		 .antMatchers("/api/feedbacks/**").permitAll() 
                 		 .antMatchers("/api/complain/**").permitAll() 
                         // .antMatchers("/user").hasRole("USER")
