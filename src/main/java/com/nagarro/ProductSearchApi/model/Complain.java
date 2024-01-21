@@ -76,10 +76,6 @@ public class Complain {
 	}
 
 	
-
-	
-	
-
 	public User getUser() {
 		return user;
 	}

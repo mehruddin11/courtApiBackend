@@ -56,10 +56,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests(req -> req
                 		.antMatchers("/authenticate", "/register","/generate","/verify",
-                				"/createCredentials","/forgot-password-otp","/verify-otp","/reset-password","/feedbacks", "/update-profile/**").permitAll()
+                				"/createCredentials","/forgot-password-otp","/verify-otp","/reset-password","/feedbacks", "/update-profile/**","/all").permitAll()
                 		 .antMatchers("/api/feedbacks/**").permitAll() 
                 		 .antMatchers("/api/package/**").permitAll() 
                 		 .antMatchers("/api/complain/**").permitAll() 
+                		 .antMatchers("/user-selected-packages/**").permitAll() 
+                		 .antMatchers("/api/mobilemaintenances/**").permitAll() 
+                		
                         // .antMatchers("/user").hasRole("USER")
                         // .antMatchers("/admin").hasRole("ADMIN")
                 		 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()

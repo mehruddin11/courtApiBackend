@@ -28,5 +28,6 @@ public interface UserService {
 	
 	 User updateUserProfile(long userId, User updatedUserData);
 	
+	 List<User> getAlluserData();
 
 }

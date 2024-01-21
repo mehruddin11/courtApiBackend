@@ -62,10 +62,11 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Complain> complainList = new ArrayList<>();
     
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval  =true)
-    private List<MobileMaintainenceModel> mobiles = new ArrayList<>();
-    
-    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSelectedPackage> userPackagesList = new ArrayList<>();
+  
+
+
 	@Nullable
     private String username;
 

@@ -172,9 +172,6 @@ public class UserServiceImpl implements UserService {
 	    }
 	 
 	 
-
-	
-
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Optional findUserById(Long userId, String username, String password) {
@@ -282,6 +279,15 @@ public class UserServiceImpl implements UserService {
 	        // Save the updated user
 	        return userRepository.save(existingUser);
 	    }
+
+
+
+	@Override
+	public List<User> getAlluserData() {
+		return userRepository.findAll();
+	}
+	 
+	 
 
 
 

@@ -41,6 +41,7 @@ public class FeedBack {
 		return id;
 	}
 
+	
 	public User getUser() {
 		return user;
 	}
