@@ -49,8 +49,16 @@ public class UserPackages {
 	@OneToMany(mappedBy = "packages", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<MobileMaintainenceModel> mobiles = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "userPackages", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Transaction> transactions = new ArrayList<>();
+
 	
 	
+	
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 
 	public List<MobileMaintainenceModel> getMobiles() {
 		return mobiles;

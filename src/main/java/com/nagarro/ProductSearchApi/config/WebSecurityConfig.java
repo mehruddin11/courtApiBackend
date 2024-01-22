@@ -62,7 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 		 .antMatchers("/api/complain/**").permitAll() 
                 		 .antMatchers("/user-selected-packages/**").permitAll() 
                 		 .antMatchers("/api/mobilemaintenances/**").permitAll() 
-                		
+                		 .antMatchers("/api/transactions/**").permitAll() 
+                		 .antMatchers("/platform/**").permitAll()
+                		 .antMatchers("/api/casemodels/**").permitAll()
                         // .antMatchers("/user").hasRole("USER")
                         // .antMatchers("/admin").hasRole("ADMIN")
                 		 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()

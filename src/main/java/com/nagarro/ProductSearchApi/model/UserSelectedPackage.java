@@ -25,9 +25,6 @@ public class UserSelectedPackage {
 	 @JoinColumn(name = "user_id")
     private User user;
 	
-	
-	
-
 
 	public UserPackages getUserPackages() {
 		return userPackages;

@@ -65,6 +65,62 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSelectedPackage> userPackagesList = new ArrayList<>();
   
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CaseModel> caseModels = new ArrayList<>();
+    
+    
+//	public List<FeedBack> getFeedbackList() {
+//		return feedbackList;
+//	}
+//
+
+
+//
+//	public void setFeedbackList(List<FeedBack> feedbackList) {
+//		this.feedbackList = feedbackList;
+//	}
+//
+//
+//
+//
+//	public List<Complain> getComplainList() {
+//		return complainList;
+//	}
+//
+//
+//
+//
+//	public void setComplainList(List<Complain> complainList) {
+//		this.complainList = complainList;
+//	}
+
+
+
+//
+//	public List<UserSelectedPackage> getUserPackagesList() {
+//		return userPackagesList;
+//	}
+//
+//	
+//	
+//
+//	public void setUserPackagesList(List<UserSelectedPackage> userPackagesList) {
+//		this.userPackagesList = userPackagesList;
+//	}
+
+
+//	public List<Transaction> getTransactions() {
+//		return transactions;
+//	}
+
+
+//	public void setTransactions(List<Transaction> transactions) {
+//		this.transactions = transactions;
+//	}
 
 
 	@Nullable
